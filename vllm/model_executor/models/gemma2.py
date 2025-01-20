@@ -325,7 +325,7 @@ class Gemma2Model(nn.Module):
             ("gate_up_proj", "gate_proj", 0),
             ("gate_up_proj", "up_proj", 1),
         ]
-        params_dict = dict(self.named_parameters(prefix="model"))
+        params_dict = dict(self.named_parameters())
         loaded_params: Set[str] = set()
         for name, loaded_weight in weights:
             if (self.quant_config is not None and
@@ -361,7 +361,7 @@ class Gemma2Model(nn.Module):
                     continue
                 if is_pp_missing_parameter(name, self):
                     continue
-                param = params_dict[name]
+                param = params_dict[f"model.{name}"]
                 weight_loader = getattr(param, "weight_loader",
                                         default_weight_loader)
                 weight_loader(param, loaded_weight)
