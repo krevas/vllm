@@ -325,7 +325,7 @@ class Gemma2Model(nn.Module):
             ("gate_up_proj", "gate_proj", 0),
             ("gate_up_proj", "up_proj", 1),
         ]
-        params_dict = dict(self.named_parameters())
+        params_dict = dict(self.named_parameters(prefix="model"))
         loaded_params: Set[str] = set()
         for name, loaded_weight in weights:
             if (self.quant_config is not None and
